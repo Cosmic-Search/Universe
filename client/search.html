@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    	<title>Cosmic Search Universe</title>
+    	<style>#dvLoading{background:url(../images/loading.gif) center center no-repeat #000;height:100px;width:100px;position:fixed;z-index:1000;left:50%;top:50%;margin:-25px 0 0 -25px}</style>
+    	<link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css" rel="stylesheet">
+    	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    	<!--[if IE 7]>
+    	  <script src="https://cdn.jsdelivr.net/ie7.js/2.1b4/IE7.js"></script>
+    	<![endif]-->
+    	<!--[if IE 8]>
+    	  <script src="https://cdn.jsdelivr.net/ie7.js/2.1b4/IE8.js"></script>
+    	<![endif]-->
+    	<!--[if IE 9]>
+    	  <script src="https://cdn.jsdelivr.net/ie7.js/2.1b4/IE9.js"></script>
+    	<![endif]-->
+    </head>
+    <body>
+        <div id="dvLoading"></div>
+    	<div class="row">
+    		<div class="col s12">
+    			<nav>
+    				<div class="nav-wrapper blue">
+    					<a class="brand-logo center" href="/">Cosmic Search Universe</a>
+    				</div>
+    			</nav>
+    			<nav>
+    				<div class="nav-wrapper blue lighten-1">
+    					<form>
+    						<div class="input-field ui-widget">
+    							<input id="search" required="" type="search" spellcheck="true"> <label for="search"><i class="material-icons">search</i></label> <i class="material-icons">close</i>
+    						</div>
+    					</form>
+    				</div>
+    			</nav>
+    		</div>
+    		<div class="col s12 grid-smart">
+        			<ul class="collapsible popout collapsible-smart" data-collapsible="accordion">
+        			    <li>
+            			    <div class="collapsible-header active">Smart Result</div>
+            			    <div class="collapsible-body smart">
+            				    {{smart}}
+            				</div>
+        				</li>
+        			</ul>
+    		</div>
+    	</div>
+    	<div class="row">
+    	    <div class="col s12">
+    	        <ul class="collapsible popout collapsible-results" data-collapsible="accordion">
+    	            {{results}}
+    	        </ul>
+    	        <center><a class="waves-effect waves-light btn-large blue back">Back</a> <a class="waves-effect waves-light btn-large blue more">Next</a></center>
+    		</div>
+    	</div>
+    	<div class="row">
+            <div class="col s12">
+            <footer class="page-footer blue">
+              <div class="container">
+                <div class="row">
+                  <div class="col l6 s12">
+                    <h5 class="white-text">Cosmic Search Universe</h5>
+                    <p class="grey-text text-lighten-4">A free, open source, no tracking search engine.</p>
+                  </div>
+                  <div class="col l4 offset-l2 s12">
+                    <h5 class="white-text">Links</h5>
+                    <ul>
+                      <li><a class="grey-text text-lighten-3" href="/">Home</a></li>
+                      <li><a class="grey-text text-lighten-3" href="/about">About</a></li>
+                      <li><a class="grey-text text-lighten-3" href="/news">News Search</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="footer-copyright blue lighten-1">
+                <div class="container">
+                © 2017 Cosmic Web Services
+                </div>
+              </div>
+            </footer>
+            </div>
+        </div>
+        
+        <script src="https://cdn.jsdelivr.net/jquery/3.1.1/jquery.min.js"></script>
+    	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+    	<script src="//cdn.iframe.ly/embed.js?api_key=<key here>&playerjs=true" async charset="utf-8"></script>
+        
+    	<script type="text/javascript">
+    	    /*global $*/
+    	    
+            $(document).ready(function(){
+               $('#dvLoading').fadeOut(2000);
+	         });
+	         
+	         $("#search").ready(function() {
+	           var pathArray = window.location.pathname.split( '/' );
+               var location = decodeURIComponent(pathArray[2]);
+               $("#search").val(location);
+	         });
+	         
+	         $(".back").ready(function() {
+	           if (String(window.location.href).includes("?times") == false) {
+                $(".back").remove();
+               }
+	         });
+	         
+	         $(".collapsible-results").ready(function() {
+	             $('.collapsible-results').collapsible();
+	         });
+	         $(".collapsible-smart").ready(function() {
+	             $('.collapsible-smart').collapsible();
+	         });
+	         
+	         $(document).ready(function() {
+	             console.log($("#smart").html());
+	             if ($("#smart").html() == undefined) {
+                    $(".grid-smart").remove();
+                 }
+	         });
+	         
+	         function getParameterByName(name, url) {
+                if (!url) {
+                  url = window.location.href;
+                }
+                name = name.replace(/[\[\]]/g, "\\$&");
+                var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                    results = regex.exec(url);
+                if (!results) return null;
+                if (!results[2]) return '';
+                return decodeURIComponent(results[2].replace(/\+/g, " "));
+            }
+	         $("#search").on( "keypress", function(event) {
+                if (event.which == 13 && !event.shiftKey) {
+                    event.preventDefault();
+                    window.location.replace("/search/" + encodeURIComponent($("#search").val()));
+                }
+            });
+            $( ".more" ).click(function() {
+                if (String(window.location.href).includes("?times")) {
+                    window.location.replace("/search/" + encodeURIComponent($("#search").val()) + "/?times=" + (Number(getParameterByName("times")) + Number(10)));
+                }
+                else {
+                    window.location.replace("/search/" + encodeURIComponent($("#search").val()) + "/?times=10");
+                }
+            });
+            $( ".back" ).click(function() {
+                if (String(window.location.href).includes("?times")) {
+                    if ((Number(getParameterByName("times")) - Number(10)) >= 10) {
+                        window.location.replace("/search/" + encodeURIComponent($("#search").val()) + "/?times=" + (Number(getParameterByName("times")) - Number(10)));
+                    }
+                    else {
+                        window.location.replace("/search/" + encodeURIComponent($("#search").val()));
+                    }
+                }
+            });
+            
+            var querys = [];
+            
+            $( "#search" ).change(function() { // Need to move this to news when autocomplete is fixed.
+                querys = [];
+                $.getJSON("/apis/suggest/?q=" +  encodeURIComponent($("#search").val()), function(data){
+                    for (var i = 0, len = data.default.rankedList[0].rankedKeyword.length; i < len; i++) {
+                        querys.push(data.default.rankedList[0].rankedKeyword[i].query);
+                    }
+                    console.log(querys);
+                });
+            });
+            
+            $('#search').autocomplete({ //Not Done!
+                source: querys,
+                limit: 20
+            });
+            
+        </script>
+    </body>
+</html>
