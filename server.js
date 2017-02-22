@@ -4,7 +4,7 @@ var fs = require('fs');
 
 var encode = require('urlencode');
 
-var search = require('node-bing-api')({ accKey: "" }); //Put account key here
+var search = require('node-bing-api')({ accKey: "" }); //Account key here!
 
 var express = require('express');
 var cluster = require('express-cluster');
@@ -148,7 +148,7 @@ cluster(function(worker) {
         for (var i = 0; i < body.webPages.value.length; i++) {
             if (req.cookies.safe=="true" && cleanUp(body.webPages.value[i].name)!=body.webPages.value[i].name){ } 
             else {
-              text += '<li><div class="collapsible-header">' + body.webPages.value[i].name + '<a href="' + "https://cosmic-search-universe-cosmicwebservices.c9users.io/redirect/?url=" + urlencode(body.webPages.value[i].url) + '" class="btn-small right" target="_blank">visit</a></div><div class="collapsible-body"><p class="flow-text">' + body.webPages.value[i].snippet + '<br><br>' + String(urldecode(body.webPages.value[i].displayUrl).replace("http://","")).replace("https://","") + '<div class="a2a_kit a2a_kit_size_32 a2a_default_style"><a class="a2a_dd" href="https://www.addtoany.com/share"></a><a class="a2a_button_facebook"></a><a class="a2a_button_twitter"></a><a class="a2a_button_google_plus"></a></div><script>var a2a_config=a2a_config ||{};a2a_config.linkurl = "' + body.webPages.value[i].displayUrl + '";a2a_config.onclick=1;</script><script async src="https://static.addtoany.com/menu/page.js"></script></p></div></li>';
+              text += '<li><div class="collapsible-header">' + body.webPages.value[i].name + '<a href="' + "/redirect/?url=" + urlencode(body.webPages.value[i].url) + '" class="btn-small right" target="_blank">visit</a></div><div class="collapsible-body"><p class="flow-text">' + body.webPages.value[i].snippet + '<br><br>' + String(urldecode(body.webPages.value[i].displayUrl).replace("http://","")).replace("https://","") + '<div class="a2a_kit a2a_kit_size_32 a2a_default_style"><a class="a2a_dd" href="https://www.addtoany.com/share"></a><a class="a2a_button_facebook"></a><a class="a2a_button_twitter"></a><a class="a2a_button_google_plus"></a></div><script>var a2a_config=a2a_config ||{};a2a_config.linkurl = "' + body.webPages.value[i].displayUrl + '";a2a_config.onclick=1;</script><script async src="https://static.addtoany.com/menu/page.js"></script></p></div></li>';
             }
         }
         
@@ -156,7 +156,7 @@ cluster(function(worker) {
           console.log("Whoops there was a problem!");
         }
         else {
-          request("https://cosmic-search-universe-cosmicwebservices.c9users.io/apis/math/?eq=" + urlencode(term), function(error2, response, answer) {
+          request("/apis/math/?eq=" + urlencode(term), function(error2, response, answer) {
             if (!S(String(answer)).contains('error')) {
               res.send(fs.readFileSync("client/search.html")
                 .toString()
@@ -211,7 +211,7 @@ cluster(function(worker) {
         for (var i = 0; i < body.value.length; i++) {
             if (req.cookies.safe=="true" && cleanUp(body.value[i].name)!=body.value[i].name){ } 
             else {
-              text += '<li><div class="collapsible-header">' + body.value[i].name + '<a href="' + "https://cosmic-search-universe-cosmicwebservices.c9users.io/redirect/?url=" + urlencode(body.value[i].url) + '" class="btn-small right" target="_blank">visit</a></div><div class="collapsible-body"><p class="flow-text">' + body.value[i].description + '<br>' + urldecode(body.value[i].url) + '<div class="a2a_kit a2a_kit_size_32 a2a_default_style"><a class="a2a_dd" href="https://www.addtoany.com/share"></a><a class="a2a_button_facebook"></a><a class="a2a_button_twitter"></a><a class="a2a_button_google_plus"></a></div><script>var a2a_config=a2a_config ||{};a2a_config.linkurl = "' + body.value[i].url + '";a2a_config.onclick=1;</script><script async src="https://static.addtoany.com/menu/page.js"></script></p></div></li>';
+              text += '<li><div class="collapsible-header">' + body.value[i].name + '<a href="' + "/redirect/?url=" + urlencode(body.value[i].url) + '" class="btn-small right" target="_blank">visit</a></div><div class="collapsible-body"><p class="flow-text">' + body.value[i].description + '<br>' + urldecode(body.value[i].url) + '<div class="a2a_kit a2a_kit_size_32 a2a_default_style"><a class="a2a_dd" href="https://www.addtoany.com/share"></a><a class="a2a_button_facebook"></a><a class="a2a_button_twitter"></a><a class="a2a_button_google_plus"></a></div><script>var a2a_config=a2a_config ||{};a2a_config.linkurl = "' + body.value[i].url + '";a2a_config.onclick=1;</script><script async src="https://static.addtoany.com/menu/page.js"></script></p></div></li>';
             }
         }
         text = text.replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1" target="_blank">$1</a> ');
@@ -295,7 +295,7 @@ cluster(function(worker) {
     res.send(fs.readFileSync("client/error.html")
       .toString()
       .replace('{{error}}', "404")
-      .replace('{{link}}', "https://cosmic-search-universe-cosmicwebservices.c9users.io/search/404%20error"));
+      .replace('{{link}}', "/search/404%20error"));
     res.end();
   });
   
@@ -303,7 +303,7 @@ cluster(function(worker) {
    res.send(fs.readFileSync("client/error.html")
       .toString()
       .replace('{{error}}', "500")
-      .replace('{{link}}', "https://cosmic-search-universe-cosmicwebservices.c9users.io/search/500%20error"));
+      .replace('{{link}}', "/search/500%20error"));
     res.end();
   });
   
