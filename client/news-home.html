@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    	<title>Cosmic Search Universe</title>
+    	<script src="https://cdn.jsdelivr.net/jquery/3.1.1/jquery.min.js">
+    	</script>
+    	<link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css" rel="stylesheet">
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js">
+    	</script>
+    	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    	<!--[if IE 7]>
+    	  <script src="https://cdn.jsdelivr.net/ie7.js/2.1b4/IE7.js"></script>
+    	<![endif]-->
+    	<!--[if IE 8]>
+    	  <script src="https://cdn.jsdelivr.net/ie7.js/2.1b4/IE8.js"></script>
+    	<![endif]-->
+    	<!--[if IE 9]>
+    	  <script src="https://cdn.jsdelivr.net/ie7.js/2.1b4/IE9.js"></script>
+    	<![endif]-->
+    </head>
+    <body>
+    	<div class="row">
+    		<div class="col s12">
+    			<nav>
+    				<div class="nav-wrapper blue">
+    					<a class="brand-logo center" href="/">Cosmic Search Universe</a>
+    				</div>
+    			</nav>
+    			<nav>
+    				<div class="nav-wrapper blue lighten-1">
+    					<form>
+    						<div class="input-field">
+    							<input id="search" required="" type="search" spellcheck="true"> <label for="search"><i class="material-icons">search</i></label> <i class="material-icons">close</i>
+    						</div>
+    					</form>
+    				</div>
+    			</nav>
+			    
+    		</div>
+    	</div>
+    	<div class="row">
+        <div class="col s12">
+            <div class="card-panel z-depth-3">
+                <h2 class="text-black">Settings</h2>
+                <span class="white-text">
+              <a href="/"><p>Go to Web Search</p></a>
+              <div class="switch"> <!-- Todo: style a little more -->
+                <label>
+                  Regular
+                  <input class="safemode" type="checkbox">
+                  <span class="lever"></span> Safemode
+                </label>
+            </div>
+            </span>
+        </div>
+        </div>
+        <div class="row">
+                <div class="col s12">
+                <footer class="page-footer blue">
+                  <div class="container">
+                    <div class="row">
+                      <div class="col l6 s12">
+                        <h5 class="white-text">Cosmic Search Universe</h5>
+                        <p class="grey-text text-lighten-4">A free, open source, no tracking search engine.</p>
+                      </div>
+                      <div class="col l4 offset-l2 s12">
+                        <h5 class="white-text">Links</h5>
+                        <ul>
+                          <li><a class="grey-text text-lighten-3" href="/">Home</a></li>
+                          <li><a class="grey-text text-lighten-3" href="/about">About</a></li>
+                          <li><a class="grey-text text-lighten-3" href="/news">News Search</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="footer-copyright blue lighten-1">
+                    <div class="container">
+                    © 2017 Cosmic Web Services
+                    </div>
+                  </div>
+                </footer>
+            </div>
+        </div>
+    	<script type="text/javascript">
+    	    /*global $*/
+    	    function getCookie(name) {
+            var value = "; " + document.cookie;
+            var parts = value.split("; " + name + "=");
+            if (parts.length == 2) return parts.pop().split(";").shift();
+        }
+            $(document).ready(function(){
+	           $('.collapsible').collapsible();
+	           if (getCookie("toast") != "true") {
+                Materialize.toast('This site requires cookies for some features.', 5000);
+                document.cookie = "toast=true";
+            }
+	           if (getCookie("safe") == "true") {
+                $(".safemode").prop('checked', true);
+            } else {
+                $(".safemode").prop('checked', false);
+            }
+	         });
+            $('.safemode').change(function() {
+                if ($(this).is(':checked')) {
+                    document.cookie = "safe=true";
+                } else {
+                    document.cookie = "safe=false";
+                }
+            });
+	         $("#search").on( "keypress", function(event) {
+                if (event.which == 13 && !event.shiftKey) {
+                    event.preventDefault();
+                    window.location.replace("news/" + encodeURIComponent($("#search").val()));
+                }
+            });
+        </script>
+    </body>
+</html>
