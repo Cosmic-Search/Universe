@@ -157,7 +157,7 @@ cluster(function(worker) {
         }
         else {
           request("/apis/math/?eq=" + urlencode(term), function(error2, response, answer) {
-            if (!S(String(answer)).contains('error')) {
+            if (!S(String(answer)).contains('error') && !S(String(answer)).contains('undefined')) {
               res.send(fs.readFileSync("client/search.html")
                 .toString()
                 .replace('{{smart}}','<p id="smart" class="flow-text">' + term + " = " + answer + '</p>')
